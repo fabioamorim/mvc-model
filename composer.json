@@ -1,0 +1,10 @@
+{
+    "name": "fabio/mvc-model",
+    "authors": [
+        {
+            "name": "Fábio Batista do Amorim",
+            "email": "batista.amorim@hotmail.com"
+        }
+    ],
+    "require": {}
+}
