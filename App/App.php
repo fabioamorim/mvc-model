@@ -20,7 +20,7 @@ class App
         define('DB_HOST'        ,'locahost');
         define('DB_USER'        ,'root');
         define('DB_PASSWORD'    ,'');
-        define('DB_NAMR'        ,'db_name');
+        define('DB_NAME'        ,'db_name');
         define('DB_DRIVER'      ,'mysql');
 
         $this->url();
