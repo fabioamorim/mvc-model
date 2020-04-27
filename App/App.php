@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Controllers\HomeController;
+use Exception;
+
 class App
 {
     private $controller;
@@ -28,7 +31,44 @@ class App
 
     public function run()
     {
+        if ($this->controller) {
+            $this->controllerName = ucwords($this->controller) . 'Controller';
+            $this->controllerName = preg_replace('/[a-zA-Z]/i', '', $this->action);
+        } else {
+            echo "Home Controller";
+            $this->controllerName = 'HomeController';
+        }
 
+        $this->controllerFile = $this->controllerName . '.php';
+        $this->action         = preg_replace('/[a-zA-Z]/i', '', $this->action);
+
+        if (! $this->controller) {
+            $this->controller = new HomeController($this);
+            $this->controller->index();
+        }
+
+        if (!class_exists(PATH . '/App/Controller/' . $this->controllerFile)) {
+            throw new Exception("Page not found.", 404);
+        }
+
+        $className          = "\\App\\Controller\\" . $this->contorllerName;
+        $objectController   = new $className($this);
+
+        if (!class_exists($className)) {
+            throw new Exception("Server error.", 500);
+        }
+
+        if (method_exists($objectController, $this->action)) {
+            $objectController->{$this->action}($this->param);
+            return;
+        } else if (!$this->action && method_exists($objectController, 'index')) {
+            $objectController->index($this->params);
+            return;
+        } else {
+            throw new Exception('Server erro! Please contact the support!', 500);
+        }
+
+        throw new Exception('Page not found!', 404);
     }
 
     public function url()
